@@ -1,5 +1,6 @@
 import java.util.Scanner;
 
+
 public class slot_machine
 {
     public static void main(String[] args)
@@ -10,71 +11,66 @@ public class slot_machine
         System.out.println("1. You should enter the number of total chip you have.");
         System.out.println("2. Determine your bet. Higher the bet, higher the reward!");
         System.out.println("3. If you ran out of chips you lose!");
-        System.out.println("4. If you triple the money of yours, you win!");
+        System.out.println("4. If you triple the initial chip of yours, you win!");
         
         // Initializing 
         Scanner in = new Scanner(System.in);
         System.out.println("Please enter your total chip. ");
-        double total_chip = in.nextDouble();
-        String a1 = "*";
-        String b1 = "7";
-        String c1 = "O";
-        String d1 = "X";
-        String e1 = "#";
-        String f1 = "@";
+        int initial_chip = in.nextInt();
+        int total_chip = initial_chip;
+        int counter = 0;
+        while(initial_chip <= 0)
+        {
+            System.out.println("Please enter a valid value of chips.");
+            initial_chip = in.nextInt();
+        }
         
-            while(total_chip > 0 && total_chip < 3*total_chip)//Paran varsa ve giris tutarindaki paranin 3 katini gecmediysen            
-            {
-                System.out.println("Please enter your bet. ");
-                double bet = in.nextDouble(); 
-                if(bet < total_chip && bet > 0)//Bahsin toplam parandan kucukse
+                while(total_chip > 0 && total_chip < 3 * initial_chip)//Paran varsa ve giris tutarindaki paranin 3 katini gecmediysen            
                 {
-                    System.out.println("Enter 's' to spin and 'c' to cancel the spin.");
-                    String decision = in.next();
-                    if(decision.equals("s"))
-                    {
-                        int first = (int)(Math.random() * 6) + 1;//1 ile 6 arasinda rastgele bir sayi
-                        int second = (int)(Math.random() * 6) + 1;//1 ile 6 arasinda rastgele bir sayi
-                        int third = (int)(Math.random() * 6) + 1;//1 ile 6 arasinda rastgele bir sayi
+                    System.out.println("Please enter your bet. ");
+                    int bet = in.nextInt();  
                         
-                        switch(first)
+                    if(bet <= total_chip && bet > 0)//Bahsin toplam parandan kucukse
+                    {
+                        System.out.println("Enter 's' to spin and 'c' to clear history.");
+                        String decision = in.next();
+                        if(decision.equals("s"))
                         {
-                            case(1): System.out.println( a1 + "-"); break;
-                            case(2): System.out.println( b1 + "-"); break;
-                            case(3): System.out.println( c1 + "-"); break;
-                            case(4): System.out.println( d1 + "-"); break;
-                            case(5): System.out.println( e1 + "-"); break;
-                            case(6): System.out.println( f1 + "-"); break;
+                            counter++ ; 
+                            System.out.println(counter + ". game.");
+                            total_chip = total_chip - bet ;
+                            System.out.println("Chip left: " + total_chip);
+                            String resultOfSpinning = machine.spinning();
+                            System.out.println(resultOfSpinning);
+                            int result = machine.slots(resultOfSpinning, bet);
                             
+                            System.out.println("You win " + result + "!");
+                            total_chip = total_chip + result;
+                            System.out.println("Total chip: " + total_chip);
                         }
-                        switch(second)
+                        else if(decision.equals("c"))
                         {
-                            case(1): System.out.print( a1 + "-"); break;
-                            case(2): System.out.print( b1 + "-"); break;
-                            case(3): System.out.print( c1 + "-"); break;
-                            case(4): System.out.print( d1 + "-"); break;
-                            case(5): System.out.print( e1 + "-"); break;
-                            case(6): System.out.print( f1 + "-"); break;
-                            
-                        }
-                        switch(third)
-                        {
-                            case(1): System.out.print( a1 ); break;
-                            case(2): System.out.print( b1 ); break;
-                            case(3): System.out.print( c1 ); break;
-                            case(4): System.out.print( d1 ); break;
-                            case(5): System.out.print( e1 ); break;
-                            case(6): System.out.print( f1 ); break;
-                            
+                            System.out.print('\u000C');
                         }
                     }
+                    else
+                    {
+                        System.out.println("You have only " + total_chip + " chips.");
+                    }
                 }
+            
                 
-            }
-            if( total_chip > 0)//Paran varsa 
-            {
-                
-            }
-        
+         
+        System.out.println("You have spinned " + counter + " times.");
+        if(total_chip >= 3 * initial_chip)
+        {
+            System.out.println("Congratulations You Win!!!");
+        }
+        else
+        {
+            System.out.println("You've spent all your chips. Thank you for playing!"); 
+        }
     }
-}
+            
+        
+}    
